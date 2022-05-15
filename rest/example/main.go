@@ -5,8 +5,8 @@ import (
 	"log"
 	"os"
 
-	polygon "github.com/polygon-io/client-go/rest"
-	"github.com/polygon-io/client-go/rest/models"
+	polygon "github.com/ericmaustin/polygon-client-go/rest"
+	"github.com/ericmaustin/polygon-client-go/rest/models"
 )
 
 func main() {

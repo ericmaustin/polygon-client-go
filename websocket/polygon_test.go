@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/polygon-io/client-go/websocket/models"
+	"github.com/ericmaustin/polygon-client-go/websocket/models"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 )

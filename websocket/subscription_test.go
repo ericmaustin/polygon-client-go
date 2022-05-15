@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/polygon-io/client-go/websocket/models"
+	"github.com/ericmaustin/polygon-client-go/websocket/models"
 	"github.com/stretchr/testify/assert"
 )
 

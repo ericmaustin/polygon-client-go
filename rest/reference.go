@@ -4,9 +4,9 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/polygon-io/client-go/rest/client"
-	"github.com/polygon-io/client-go/rest/iter"
-	"github.com/polygon-io/client-go/rest/models"
+	"github.com/ericmaustin/polygon-client-go/rest/client"
+	"github.com/ericmaustin/polygon-client-go/rest/iter"
+	"github.com/ericmaustin/polygon-client-go/rest/models"
 )
 
 const (
@@ -25,6 +25,9 @@ const (
 	ListConditionsPath = "/v3/reference/conditions"
 
 	GetExchangesPath = "/v3/reference/exchanges"
+
+	ListOptionsContractsPath     = "/v3/reference/options/contracts"
+	GetOptionContractDetailsPath = "/v3/reference/options/contracts/{ticker}"
 )
 
 // ReferenceClient defines a REST client for the Polygon reference API.
@@ -151,4 +154,30 @@ func (c *ReferenceClient) GetExchanges(ctx context.Context, params *models.GetEx
 	res := &models.GetExchangesResponse{}
 	err := c.Call(ctx, http.MethodGet, GetExchangesPath, params, res, options...)
 	return res, err
+}
+
+// GetOptionContractDetails retrieves details for a specified OptionContract.
+// For more details see https://polygon.io/docs/options/get_v3_reference_options_contracts__options_ticker.
+func (c *ReferenceClient) GetOptionContractDetails(ctx context.Context, params *models.GetOptionContractDetailsParams, options ...models.RequestOption) (*models.GetOptionContractDetailsResponse, error) {
+	res := &models.GetOptionContractDetailsResponse{}
+	err := c.Call(ctx, http.MethodGet, GetOptionContractDetailsPath, params, res, options...)
+	return res, err
+}
+
+// ListOptionsContracts retrieves reference option contracts.
+// For more details see https://polygon.io/docs/stocks/get_v3_reference_tickers__ticker.
+// This method returns an iterator that should be used to access the results via this pattern:
+//   iter, err := c.ListOptionsContracts(context.TODO(), params, opts...)
+//   for iter.Next() {
+//       log.Print(iter.Item()) // do something with the current value
+//   }
+//   if iter.Err() != nil {
+//       return err
+//   }
+func (c *ReferenceClient) ListOptionsContracts(ctx context.Context, params *models.ListOptionContractsParams, options ...models.RequestOption) *iter.Iter[models.OptionContract] {
+	return iter.NewIter(ctx, ListOptionsContractsPath, params, func(uri string) (iter.ListResponse, []models.OptionContract, error) {
+		res := &models.ListOptionContractsResponse{}
+		err := c.CallURL(ctx, http.MethodGet, uri, res, options...)
+		return res, res.Results, err
+	})
 }

@@ -6,9 +6,10 @@ import (
 	"testing"
 
 	"github.com/jarcoal/httpmock"
-	polygon "github.com/polygon-io/client-go/rest"
-	"github.com/polygon-io/client-go/rest/models"
 	"github.com/stretchr/testify/assert"
+
+	polygon "github.com/ericmaustin/polygon-client-go/rest"
+	"github.com/ericmaustin/polygon-client-go/rest/models"
 )
 
 func TestListStockFinancials(t *testing.T) {

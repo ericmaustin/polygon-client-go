@@ -8,7 +8,8 @@ import (
 
 	"github.com/go-playground/form/v4"
 	"github.com/go-playground/validator/v10"
-	"github.com/polygon-io/client-go/rest/models"
+
+	"github.com/ericmaustin/polygon-client-go/rest/models"
 )
 
 // Encoder defines a path and query param encoder that plays nicely with the Polygon REST API.

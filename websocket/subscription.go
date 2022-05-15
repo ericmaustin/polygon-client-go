@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"strings"
 
-	"github.com/polygon-io/client-go/websocket/models"
+	"github.com/ericmaustin/polygon-client-go/websocket/models"
 	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
 )

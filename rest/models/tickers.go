@@ -341,3 +341,142 @@ type TickerType struct {
 	Description string `json:"description,omitempty"`
 	Locale      string `json:"locale,omitempty"`
 }
+
+// ListOptionContractsParams is the set of parameters for the ListContracts method.
+type ListOptionContractsParams struct {
+	TickerEQ  *string `query:"underlying_ticker"`
+	TickerLT  *string `query:"underlying_ticker.lt"`
+	TickerLTE *string `query:"underlying_ticker.lte"`
+	TickerGT  *string `query:"underlying_ticker.gt"`
+	TickerGTE *string `query:"underlying_ticker.gte"`
+
+	ContractType *string `query:"contract_type"`
+
+	ExpirationDateEQ  *Date `query:"expiration_date"`
+	ExpirationDateLT  *Date `query:"expiration_date.lt"`
+	ExpirationDateLTE *Date `query:"expiration_date.lte"`
+	ExpirationDateGT  *Date `query:"expiration_date.gt"`
+	ExpirationDateGTE *Date `query:"expiration_date.gte"`
+
+	StrikePriceEQ  *float64 `query:"strike_price"`
+	StrikePriceLT  *float64 `query:"strike_price.lt"`
+	StrikePriceLTE *float64 `query:"strike_price.lte"`
+	StrikePriceGT  *float64 `query:"strike_price.gt"`
+	StrikePriceGTE *float64 `query:"strike_price.gte"`
+
+	AsOf    *Date `query:"as_of"`
+	Expired *bool `query:"expired"`
+}
+
+// WithUnderlyingTicker add underlying ticker filter
+func (p ListOptionContractsParams) WithUnderlyingTicker(c Comparator, q string) *ListOptionContractsParams {
+	if c == EQ {
+		p.TickerEQ = &q
+	} else if c == LT {
+		p.TickerLT = &q
+	} else if c == LTE {
+		p.TickerLTE = &q
+	} else if c == GT {
+		p.TickerGT = &q
+	} else if c == GTE {
+		p.TickerGTE = &q
+	}
+	return &p
+}
+
+// WithContractType add contract type filter
+func (p ListOptionContractsParams) WithContractType(q string) *ListOptionContractsParams {
+	p.ContractType = &q
+	return &p
+}
+
+// WithExpirationDate add expiration date filter
+func (p ListOptionContractsParams) WithExpirationDate(c Comparator, q Date) *ListOptionContractsParams {
+	if c == EQ {
+		p.ExpirationDateEQ = &q
+	} else if c == LT {
+		p.ExpirationDateLT = &q
+	} else if c == LTE {
+		p.ExpirationDateLTE = &q
+	} else if c == GT {
+		p.ExpirationDateGT = &q
+	} else if c == GTE {
+		p.ExpirationDateGTE = &q
+	}
+	return &p
+}
+
+// WithStrikePrice add a strike price filter
+func (p ListOptionContractsParams) WithStrikePrice(c Comparator, q float64) *ListOptionContractsParams {
+	if c == EQ {
+		p.StrikePriceEQ = &q
+	} else if c == LT {
+		p.StrikePriceLT = &q
+	} else if c == LTE {
+		p.StrikePriceLTE = &q
+	} else if c == GT {
+		p.StrikePriceGT = &q
+	} else if c == GTE {
+		p.StrikePriceGTE = &q
+	}
+	return &p
+}
+
+// WithAsOf add as of filter
+func (p ListOptionContractsParams) WithAsOf(q Date) *ListOptionContractsParams {
+	p.AsOf = &q
+	return &p
+}
+
+// WithExpired add expiration filter
+func (p ListOptionContractsParams) WithExpired(q bool) *ListOptionContractsParams {
+	p.Expired = &q
+	return &p
+}
+
+type OptionContractAdditionalUnderlying struct {
+	Amount     float64 `json:"amount,omitempty"`
+	Type       string  `json:"type,omitempty"`
+	Underlying string  `json:"underlying,omitempty"`
+}
+
+// OptionContract contains an options contract details
+type OptionContract struct {
+	CFI                   string                               `json:"cfi,omitempty"`
+	ContractType          string                               `json:"contract_type,omitempty"`
+	ExerciseStyle         string                               `json:"exercise_style,omitempty"`
+	ExpirationDate        Date                                 `json:"expiration_date,omitempty"`
+	PrimaryExchange       string                               `json:"primary_exchange,omitempty"`
+	SharesPerContract     int                                  `json:"shares_per_contract,omitempty"`
+	StrikePrice           float64                              `json:"strike_price,omitempty"`
+	Ticker                string                               `json:"ticker,omitempty"`
+	UnderLyingTicker      string                               `json:"underlying_ticker,omitempty"`
+	AdditionalUnderlyings []OptionContractAdditionalUnderlying `json:"additional_underlyings,omitempty"`
+}
+
+// ListOptionContractsResponse contains the result of the ListOptionsContracts API call
+type ListOptionContractsResponse struct {
+	BaseResponse
+	Results []OptionContract `json:"results,omitempty"`
+}
+
+// GetOptionContractDetailsParams is the set of parameters for the GetOptionContractDetails method.
+type GetOptionContractDetailsParams struct {
+	// The OptionTicker symbol of the asset.
+	OptionTicker string `validate:"required" path:"options_ticker"`
+
+	// Specify a point in time for the contract as of this date with format YYYY-MM-DD. Defaults to today's date.
+	AsOf *Date `query:"as_of"`
+}
+
+// WithAsOf sets the as_of parameter to the request
+func (p GetOptionContractDetailsParams) WithAsOf(q Date) *GetOptionContractDetailsParams {
+	p.AsOf = &q
+	return &p
+}
+
+// GetOptionContractDetailsResponse contains the result of the GetOptionContractDetails API call
+type GetOptionContractDetailsResponse struct {
+	BaseResponse
+	Results OptionContract `json:"results,omitempty"`
+}

@@ -7,8 +7,8 @@ import (
 
 	"github.com/go-resty/resty/v2"
 
-	"github.com/polygon-io/client-go/rest/encoder"
-	"github.com/polygon-io/client-go/rest/models"
+	"github.com/ericmaustin/polygon-client-go/rest/encoder"
+	"github.com/ericmaustin/polygon-client-go/rest/models"
 )
 
 const clientVersion = "v0.8.0"
